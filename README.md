@@ -2,7 +2,7 @@
 
 一個安全、高效的客戶檔案上傳管理系統，允許管理員創建專屬上傳連結，客戶通過連結上傳檔案，管理員可統一管理所有資料。
 
-![檔案上傳系統](https://i.imgur.com/example.png) <!-- 上線後可以替換為實際的截圖 -->
+![檔案上傳系統](https://siang.pro/image/blog-logo.png) <!-- 上線後可以替換為實際的截圖 -->
 
 ## 功能特點
 
@@ -42,7 +42,7 @@
 
 1. 克隆此倉庫到您的網頁伺服器目錄：
    ```
-   git clone https://github.com/yourusername/file-upload-system.git
+   git clone https://github.com/Siang-Pro/Client-Data-Uploader.git
    ```
 
 2. 導入資料庫結構：
@@ -63,9 +63,9 @@
    chmod 755 uploads
    ```
 
-5. 設定管理員密碼（預設帳號：admin）：
+5. 設定管理員密碼（預設帳號：admin 預設密碼：password）：
    ```
-   php generate_password.php
+   php generate_password.php 可產生加密後的密碼工具 上限建議移除或新增權限
    ```
    然後使用產生的哈希值更新資料庫中的管理員密碼。
 
