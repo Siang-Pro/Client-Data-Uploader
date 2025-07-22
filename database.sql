@@ -1,6 +1,3 @@
-CREATE DATABASE file_upload_system;
-USE file_upload_system;
-
 CREATE TABLE upload_links (
     id INT AUTO_INCREMENT PRIMARY KEY,
     client_name VARCHAR(255) NOT NULL,
