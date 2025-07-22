@@ -1,0 +1,791 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    line-height: 1.6;
+}
+
+.login-container,
+.admin-container,
+.upload-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.links-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.links-table th,
+.links-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.toggle-btn {
+    background-color: #ff4444;
+    padding: 5px 10px;
+}
+
+.success {
+    color: #4CAF50;
+    margin: 10px 0;
+}
+
+.error {
+    color: #ff4444;
+    margin: 10px 0;
+}
+
+.notice {
+    background-color: #fff3cd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.inactive-link {
+    color: #999;
+    font-style: italic;
+}
+
+.toggle-btn.active {
+    background-color: #ff4444;
+}
+
+.toggle-btn.inactive {
+    background-color: #4CAF50;
+}
+
+.footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.footer a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.admin-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.notice a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.notice a:hover {
+    text-decoration: underline;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .upload-container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .notice {
+        font-size: 0.9em;
+    }
+}
+
+/* 檔案上傳相關樣式 */
+.file-input-container {
+    margin-bottom: 20px;
+}
+
+.file-input-wrapper {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.file-input-wrapper input[type="file"] {
+    position: absolute;
+    left: -9999px;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.button-like {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.file-names {
+    color: #666;
+    font-size: 14px;
+}
+
+.file-list {
+    margin-top: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.file-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.file-size {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.upload-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.upload-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* 美化滾動條 */
+.file-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.file-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.file-list::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.file-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.button-group {
+    margin-top: 20px;
+}
+
+.delete-file {
+    background: none;
+    border: none;
+    color: #dc3545;
+    padding: 0 8px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-file:hover {
+    background-color: #dc3545;
+    color: white;
+    border-radius: 4px;
+}
+
+.delete-icon {
+    line-height: 1;
+}
+
+/* 使用說明樣式 */
+.instructions {
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #4CAF50;
+}
+
+.instructions h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.instructions ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.instructions li {
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.instructions li:last-child {
+    margin-bottom: 0;
+}
+
+/* 手機版調整 */
+@media (max-width: 768px) {
+    .instructions {
+        padding: 12px 15px;
+    }
+    
+    .instructions li {
+        font-size: 13px;
+    }
+}
+
+/* 在現有的樣式後添加 */
+
+.view-files-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.view-files-btn:hover {
+    background-color: #0056b3;
+}
+
+.files-list {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.files-list .file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.files-list .file-item:last-child {
+    border-bottom: none;
+}
+
+.files-list .file-name {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.files-list .file-time {
+    color: #666;
+    font-size: 0.9em;
+    margin-right: 10px;
+}
+
+.download-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.download-btn:hover {
+    background-color: #218838;
+}
+
+.no-files {
+    color: #666;
+    font-style: italic;
+}
+
+/* 調整表格樣式 */
+.links-table td {
+    vertical-align: top;
+    padding: 15px;
+}
+
+/* 修改檔案列表相關樣式 */
+.files-row td {
+    padding: 0 !important;
+}
+
+.files-list {
+    background-color: #f8f9fa;
+    border-top: 2px solid #dee2e6;
+}
+
+.files-grid {
+    padding: 15px;
+}
+
+.files-grid .file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.files-grid .file-item:last-child {
+    margin-bottom: 0;
+}
+
+.file-details {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.file-details .file-name {
+    color: #333;
+    margin-bottom: 4px;
+    font-size: 14px;
+    word-break: break-all;
+}
+
+.file-details .file-time {
+    color: #666;
+    font-size: 12px;
+}
+
+.download-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: center;
+}
+
+.download-btn:hover {
+    background-color: #218838;
+    text-decoration: none;
+    color: white;
+}
+
+.view-files-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+}
+
+.view-files-btn:hover {
+    background-color: #0056b3;
+}
+
+.no-files {
+    color: #666;
+    font-style: italic;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .files-grid {
+        padding: 10px;
+    }
+    
+    .files-grid .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .file-details {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .download-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* 已上傳檔案列表樣式 */
+.uploaded-files {
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 15px;
+    border-left: 4px solid #6c757d;
+}
+
+.uploaded-files h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.files-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.uploaded-file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.uploaded-file-item:last-child {
+    border-bottom: none;
+}
+
+.uploaded-file-item .file-name {
+    color: #333;
+    font-size: 14px;
+    flex: 1;
+    margin-right: 15px;
+}
+
+.uploaded-file-item .upload-time {
+    color: #666;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* 美化滾動條 */
+.files-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.files-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.files-list::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.files-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 連結輸入表單樣式 */
+.link-entry-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 4px;
+    margin: 20px 0;
+    border-left: 4px solid #007bff;
+}
+
+.link-entry-form h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.admin-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.admin-link a {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.admin-link a:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+/* 快速提示樣式 */
+.quick-tips {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #ccc;
+    font-size: 14px;
+}
+
+.quick-tips p {
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.quick-tips code {
+    display: block;
+    background-color: #f1f1f1;
+    padding: 8px;
+    border-radius: 4px;
+    color: #333;
+    font-family: monospace;
+    margin-top: 5px;
+    word-break: break-all;
+} 
+
+.admin-nav {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-nav a {
+    padding: 8px 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #495057;
+    font-size: 14px;
+}
+
+.admin-nav a:hover {
+    background-color: #e9ecef;
+}
+
+.settings-link {
+    color: #007bff !important;
+}
+
+.logout-link {
+    color: #dc3545 !important;
+} 
+
+/* 檔案上傳限制說明樣式 */
+.upload-limits {
+    background-color: #f0f8ff;
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #007bff;
+}
+
+.upload-limits h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.limits-info {
+    margin-left: 10px;
+}
+
+.limit-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: baseline;
+}
+
+.limit-label {
+    font-weight: bold;
+    margin-right: 8px;
+    min-width: 120px;
+}
+
+.limit-value {
+    color: #555;
+}
+
+/* 聯絡方式區塊樣式 */
+.contact-info {
+    background-color: #f5f5f5;
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.contact-info h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.contact-details {
+    margin-left: 10px;
+}
+
+.contact-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-icon {
+    margin-right: 10px;
+    font-style: normal;
+}
+
+.contact-label {
+    font-weight: bold;
+    margin-right: 8px;
+    min-width: 80px;
+}
+
+.contact-value {
+    color: #555;
+}
+
+.contact-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-item a:hover {
+    text-decoration: underline;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .contact-item, .limit-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .contact-label, .limit-label {
+        margin-bottom: 5px;
+    }
+} 
+
+/* 刪除連結按鈕樣式 */
+.delete-link-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 8px;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.delete-link-btn:hover {
+    background-color: #c82333;
+}
+
+/* 刪除檔案按鈕樣式 */
+.delete-file-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 5px;
+    transition: background-color 0.2s;
+}
+
+.delete-file-btn:hover {
+    background-color: #c82333;
+}
+
+/* 檔案操作區塊樣式 */
+.file-actions {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .file-actions {
+        flex-direction: column;
+        gap: 5px;
+        align-items: stretch;
+    }
+    
+    .delete-file-btn, .download-btn {
+        margin-left: 0;
+        text-align: center;
+    }
+} 
