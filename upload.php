@@ -1,4 +1,6 @@
 <?php
+// 設置字符編碼
+header('Content-Type: text/html; charset=utf-8');
 require_once 'config.php';
 
 // 獲取系統設定
@@ -83,7 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['files'])) {
     }
     
     for ($i = 0; $i < count($uploadFilesData['name']); $i++) {
-        $originalName = $uploadFilesData['name'][$i];
+        // 使用 mb_convert_encoding 確保中文檔名的正確編碼
+        $originalName = mb_convert_encoding($uploadFilesData['name'][$i], 'UTF-8', 'auto');
         $fileSize = $uploadFilesData['size'][$i];
         $fileType = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
         
@@ -101,15 +104,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['files'])) {
             continue;
         }
         
-        $fileName = time() . '_' . $originalName;
-        $uploadPath = $uploadDir . $fileName;
+        // 安全處理檔案名，確保中文檔名也能正常處理
+        $safeFileName = md5(uniqid(rand(), true)) . '_' . time() . '.' . $fileType;
+        $uploadPath = $uploadDir . $safeFileName;
         
         if (move_uploaded_file($uploadFilesData['tmp_name'][$i], $uploadPath)) {
-            $sql = "INSERT INTO uploaded_files (link_id, original_name, file_name) VALUES (?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sss", $linkId, $originalName, $fileName);
-            $stmt->execute();
-            $successCount++;
+            try {
+                // 使用預處理語句並確保正確的編碼
+                $stmt = $conn->prepare("INSERT INTO uploaded_files (link_id, original_name, file_name) VALUES (?, ?, ?)");
+                
+                // 檢查並記錄插入操作
+                if (!$stmt) {
+                    throw new Exception("準備SQL語句失敗: " . $conn->error);
+                }
+                
+                // 綁定參數
+                if (!$stmt->bind_param("sss", $linkId, $originalName, $safeFileName)) {
+                    throw new Exception("綁定參數失敗: " . $stmt->error);
+                }
+                
+                // 執行SQL
+                if (!$stmt->execute()) {
+                    throw new Exception("執行SQL失敗: " . $stmt->error);
+                }
+                
+                if ($stmt->affected_rows > 0) {
+                    $successCount++;
+                } else {
+                    throw new Exception("未影響任何行: " . $stmt->error);
+                }
+            } catch (Exception $e) {
+                $errorCount++;
+                $errorMessages[] = "{$originalName} 資料庫記錄失敗: " . $e->getMessage();
+                // 如果資料庫寫入失敗，刪除已上傳的檔案
+                if (file_exists($uploadPath)) {
+                    unlink($uploadPath);
+                }
+            }
         } else {
             $errorCount++;
             $errorMessages[] = "{$originalName} 檔案上傳失敗";
@@ -140,6 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['files'])) {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($siteName); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">

@@ -1,4 +1,6 @@
 <?php
+// 設置字符編碼
+header('Content-Type: text/html; charset=utf-8');
 require_once 'config.php';
 
 $error = null;
@@ -39,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['link_id'])) {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($siteName); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">

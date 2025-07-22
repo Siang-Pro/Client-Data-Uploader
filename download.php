@@ -25,12 +25,22 @@ if ($row = $result->fetch_assoc()) {
     $filePath = __DIR__ . '/uploads/' . $row['link_id'] . '/' . $fileName;
     
     if (file_exists($filePath)) {
-        // 設置適當的標頭
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . $row['original_name'] . '"');
-        header('Content-Length: ' . filesize($filePath));
+        // 獲取檔案資訊
+        $fileSize = filesize($filePath);
+        $originalName = $row['original_name'];
+        $mimeType = mime_content_type($filePath) ?: 'application/octet-stream';
         
-        // 輸出檔案內容
+        // 清除輸出緩衝區
+        ob_clean();
+        
+        // 設置適當的標頭
+        header('Content-Type: ' . $mimeType);
+        header('Content-Disposition: attachment; filename="' . rawurlencode($originalName) . '"; filename*=UTF-8\'\'' . rawurlencode($originalName));
+        header('Content-Length: ' . $fileSize);
+        header('Cache-Control: max-age=0');
+        
+        // 關閉輸出緩衝區並輸出檔案內容
+        flush();
         readfile($filePath);
         exit;
     }

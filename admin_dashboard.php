@@ -1,4 +1,6 @@
 <?php
+// 設置字符編碼
+header('Content-Type: text/html; charset=utf-8');
 session_start();
 require_once 'config.php';
 
@@ -52,6 +54,7 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>檔案上傳管理系統</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -120,15 +123,21 @@ $result = $conn->query($sql);
                             $files = explode(';;', $row['files']);
                             foreach ($files as $file) {
                                 list($originalName, $fileName, $uploadedAt) = explode('|', $file);
-                                $uploadTime = date('Y-m-d H:i:s', strtotime($uploadedAt));
+                                // 確保正確顯示中文檔名
+                                $displayName = htmlspecialchars($originalName, ENT_QUOTES, 'UTF-8');
+                                
+                                // 確保時間正確顯示 - 從資料庫時間轉換為本地時間
+                                $timestamp = strtotime($uploadedAt);
+                                $uploadTime = date('Y-m-d H:i:s', $timestamp);
+                                
                                 echo "<div class='file-item'>";
                                 echo "<div class='file-details'>";
-                                echo "<div class='file-name'>" . htmlspecialchars($originalName) . "</div>";
+                                echo "<div class='file-name'>" . $displayName . "</div>";
                                 echo "<div class='file-time'>上傳時間：{$uploadTime}</div>";
                                 echo "</div>";
                                 echo "<div class='file-actions'>";
                                 echo "<a href='download.php?file=" . urlencode($fileName) . "' class='download-btn'>下載</a>";
-                                echo "<button onclick='deleteFile(\"" . $fileName . "\", \"" . $row['link_id'] . "\", \"" . addslashes(htmlspecialchars($originalName)) . "\")' class='delete-file-btn'>刪除</button>";
+                                echo "<button onclick='deleteFile(\"" . $fileName . "\", \"" . $row['link_id'] . "\", \"" . addslashes($displayName) . "\")' class='delete-file-btn'>刪除</button>";
                                 echo "</div>";
                                 echo "</div>";
                             }
